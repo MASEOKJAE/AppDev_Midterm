@@ -14,6 +14,27 @@ class _SignUpState extends State<SignUp> {
   final _passwordcheckController = TextEditingController();
   final _emailcreateontroller = TextEditingController();
 
+  bool nameChecker(String str) {
+    int chCount = 0, numCount = 0;
+    bool result;
+
+    for(int i=0; i<str.length; i++) {
+        if((str[i].codeUnitAt(0) >= 'a'.codeUnitAt(0) && str[i].codeUnitAt(0) <= 'z'.codeUnitAt(0))
+          || (str[i].codeUnitAt(0) >= 'A'.codeUnitAt(0) && str[i].codeUnitAt(0) <= 'Z'.codeUnitAt(0))) {
+          chCount++;
+        } else if(str[i].codeUnitAt(0) >= '0'.codeUnitAt(0) && str[i].codeUnitAt(0) <= '9'.codeUnitAt(0)) {
+          numCount++;
+        }
+    }
+    if((chCount >= 3) && (numCount >= 3)) {
+      result = true;
+    } else {
+      result = false;
+    }
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +53,12 @@ class _SignUpState extends State<SignUp> {
                   filled: true,
                   labelText: 'Username',
                 ),
+                 validator:(value) {
+                  if(value == null || !nameChecker(value)) {
+                    return "Username is invalid";
+                  }
+                  return null;
+                },
               ),
       
               // spacer
@@ -56,8 +83,8 @@ class _SignUpState extends State<SignUp> {
                   labelText: 'Confrim Password',
                 ),
                 validator:(value){
-                  if(value!=_passwordcreateController.text){
-                    return "Passwords do not match!";
+                  if(value!=_passwordcreateController.text) {
+                    return "Confirm Passwords doesn't match Password";
                   }
                   return null;
                 },
@@ -73,6 +100,12 @@ class _SignUpState extends State<SignUp> {
                   filled: true,
                   labelText: 'Email Address',
                 ),
+                validator:(value){
+                  if(value == null || value.isEmpty) {
+                    return "Please enter Email Address";
+                  }
+                  return null;
+                },
               ),
               
               const SizedBox(height: 12.0),
