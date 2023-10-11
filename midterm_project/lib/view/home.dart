@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-import '../model/product.dart';
-import '../model/products_repository.dart';
+import '../model/hotel.dart';
+import '../model/hotels_repository.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,63 +12,71 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  bool _isGridView = true; // true for GridView, false for ListView
 
   // TODO: Make a collection of cards (102)
-  List<Card> _buildGridCards(BuildContext context) {
-    List<Product> products = ProductsRepository.loadProducts(Category.all);
+  List<Widget> _buildGridCards(BuildContext context) {
+    List<Hotel> hotels = HotelsRepository.loadHotels();
 
-    if (products.isEmpty) {
+    if (hotels.isEmpty) {
       return const <Card>[];
     }
 
     final ThemeData theme = Theme.of(context);
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
-        locale: Localizations.localeOf(context).toString());
 
-    return products.map((product) {
-      return Card(
+    // products 리스트의 각 요소에 대해 map() 함수를 실행
+    return hotels.map((hotel) {
+      // 각 product에 대해 아래의 코드 블록을 실행
+      return _isGridView ? 
+      // GridView card layout
+      Card(
+        // clipBehavior 속성은 카드의 경계를 넘어가는 자식 위젯들이 어떻게 잘릴지 결정
+        //  Clip.antiAlias는 경계를 부드럽게 만들어 줌
         clipBehavior: Clip.antiAlias,
-        // TODO: Adjust card heights (103)
         child: Column(
-          // TODO: Center items on the card (103)
+          // crossAxisAlignment 속성은 수직(열) 방향으로 어떻게 정렬할지 결정 (start -> 시작 위치에서 정렬)
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            // AspectRatio: 특정 비율(aspect ratio)을 유지하면서 그 안에 다른 위젯(여기서는 이미지)를 배치할 때 사용
             AspectRatio(
               aspectRatio: 18 / 11,
               child: Image.asset(
-                product.assetName,
-                package: product.assetPackage,
-              // TODO: Adjust the box size (102)
+                hotel.assetName,
+                package: hotel.assetPackage,
               ),
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                child: Column(
-                // TODO: Align labels to the bottom and center (103)
-                crossAxisAlignment: CrossAxisAlignment.start,
-                  // TODO: Change innermost Column (103)
-                  children: <Widget>[
-                  // TODO: Handle overflowing labels (103)
-                  Text(
-                      product.name,
-                      style: theme.textTheme.titleLarge,
-                      maxLines: 1,
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      formatter.format(product.price),
-                      style: theme.textTheme.titleSmall,
-                    ),
-                  ],
+                padding:
+                    const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                child:
+                  Column(crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                    children:<Widget>[
+                      Text(hotel.name,style:
+                        theme.textTheme.titleLarge,maxLines:
+                          1,),
+                      const SizedBox(height:
+                        8.0),
+                      Text(hotel.location,style:
+                        theme.textTheme.titleSmall,),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        )
+      : 
+      // ListView card layout
+      ListTile(
+        leading: Image.asset(hotel.assetName),
+        title: Text(hotel.name),
+        subtitle: Text(hotel.location),
       );
-    }).toList();
-  }
+      
+  }).toList();
+}
   
 
   String _onItemTapped(int index) {
@@ -92,7 +99,7 @@ class _HomePageState extends State<HomePage> {
           routeName = '/mypage';
           break;
         case 4:
-          routeName = '/login'; 
+          routeName = '/login';
           break; 
       }
       return routeName;
@@ -111,6 +118,7 @@ class _HomePageState extends State<HomePage> {
           // Update the state of the app
           String routeName = _onItemTapped(index);
           // Then close the drawer
+          Navigator.pop(context);
           Navigator.pushNamed(context,routeName);
         },
       );
@@ -122,27 +130,30 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       // TODO: Add app bar (102)
       appBar: AppBar(
-          title: const Text('SHRINE'),
+          title: const Text('Main',),
           backgroundColor: Colors.blue,
+          iconTheme: const IconThemeData(color: Colors.white), // Add this line
           
           actions: <Widget>[
             IconButton(
               icon: const Icon(
                 Icons.search,
                 semanticLabel: 'search',
+                color: Colors.white,
               ),
               onPressed: () {
-                print('Search button');
+                Navigator.pushNamed(context,'/search');
               },
             ),
 
             IconButton(
               icon: const Icon(
-                Icons.tune,
-                semanticLabel: 'filter',
+                Icons.language,
+                semanticLabel: 'language',
+                color: Colors.white,
                 ),
                 onPressed: () {
-                  print('Filter button');
+                  print('language button');
                 },
             )
           ],
@@ -150,15 +161,44 @@ class _HomePageState extends State<HomePage> {
 
       // TODO: Add a grid view (102)
       // GridView는 count() 생성자를 호출
-      body: GridView.count(
-        // crossAxisCount: 전체 항목 수를 지정 (여기서는 열이 2개)
-        crossAxisCount: 2,
-        padding: const EdgeInsets.all(16.0),
-        childAspectRatio: 8.0 / 9.0,
-
-        // TODO: Build a grid of cards (102)
-        children: _buildGridCards(context)
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                icon: Icon(_isGridView ? Icons.list : Icons.grid_view),
+                onPressed: () {
+                  setState(() {
+                    _isGridView = !_isGridView;
+                  });
+                },
+              ),
+            ],
+          ),
+          Expanded(
+            child: OrientationBuilder(
+              builder: (context, orientation) {
+                return _isGridView
+                    ? GridView.count(
+                        crossAxisCount:
+                            orientation == Orientation.portrait ? 2 : 3,
+                        padding: const EdgeInsets.all(16.0),
+                        childAspectRatio: 8 / 9,
+                        crossAxisSpacing: .5,
+                        mainAxisSpacing:.5 ,
+                        children:_buildGridCards(context),
+                      )
+                    : ListView(padding:
+                        const EdgeInsets.all(16.0),
+                        children:_buildGridCards(context)
+                      );
+              },
+            ),
+          ),
+        ],
       ),
+
       drawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
