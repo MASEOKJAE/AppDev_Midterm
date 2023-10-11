@@ -14,8 +14,12 @@
 
 import 'package:flutter/material.dart';
 
-import 'home.dart';
-import 'login.dart';
+import 'view/home.dart';
+import 'view/login.dart';
+import 'view/signup.dart';
+import 'view/search.dart';
+import 'view/fvhotel.dart';
+import 'view/mypage.dart';
 
 // TODO: Convert ShrineApp to stateful widget (104)
 class ShrineApp extends StatelessWidget {
@@ -28,11 +32,11 @@ class ShrineApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (BuildContext context) => const LoginPage(),
-        // TODO: Change to a Backdrop with a HomePage frontLayer (104)
+        '/signup': (BuildContext context) => const SignUpPage(),
         '/': (BuildContext context) => const HomePage(),
-        // TODO: Make currentCategory field take _currentCategory (104)
-        // TODO: Pass _currentCategory for frontLayer (104)
-        // TODO: Change backLayer field value to CategoryMenuPage (104)
+        '/search': (BuildContext context) => const SearchPage(),
+        '/fvhotel': (BuildContext context) => const FvHotelPage(),
+        '/mypage': (BuildContext context) => const MyPage(),
       },
       // TODO: Customize the theme (103)
       theme: ThemeData.light(useMaterial3: true),

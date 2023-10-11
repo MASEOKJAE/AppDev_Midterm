@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'signup.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -53,42 +51,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               obscureText: true,
             ),
-
-            // TODO: Add button bar (101)
             
-            // OverflowBar는 그 하위 요소를 한 행으로 정렬
-            // OverflowBar(
-            //   alignment: MainAxisAlignment.end,
-            //   // TODO: Add a beveled rectangular border to CANCEL (103)
-            //   children: <Widget>[
-            //     // TODO: Add buttons (101)
-            //     Padding(padding: const EdgeInsets.all(8.0),
-            //       child: Row(children: [
-            //         TextButton(
-            //           child: const Text('CANCEL'),
-            //           onPressed: () {
-            //             // TODO: Clear the text fields (101)
-            //             _usernameController.clear();
-            //             _passwordController.clear();
-            //           },
-            //         ),
-            //         TextButton(
-            //           child: const Text('Sign Up'),
-            //           onPressed: () {
-            //             // TODO: Clear the text fields (101)                    
-            //           },
-            //         ),
-            //         ElevatedButton(
-            //           child: const Text('NEXT'),
-            //           onPressed: () {
-            //             // TODO: Show the next page (101)
-            //             Navigator.pop(context);
-            //           },
-            //         ),
-            //       ]),
-            //     )
-            //   ],
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -102,10 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextButton(
                   child: const Text('Sign Up'),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SignUp()),
-                    );
+                    Navigator.pushNamed(context, '/signup');
                   },
                 ),
                 ElevatedButton(

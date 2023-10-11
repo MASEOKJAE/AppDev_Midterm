@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'model/product.dart';
-import 'model/products_repository.dart';
+import '../model/product.dart';
+import '../model/products_repository.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
 
   // TODO: Make a collection of cards (102)
   List<Card> _buildGridCards(BuildContext context) {
@@ -64,22 +71,60 @@ class HomePage extends StatelessWidget {
     }).toList();
   }
   
+
+  String _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      });
+
+      String routeName = '';
+      switch(index) {
+        case 0:
+          routeName = '/home';
+          break;
+        case 1:
+          routeName = '/search';
+          break;
+        case 2:
+          routeName = '/fvhotel';
+          break;
+        case 3:
+          routeName = '/mypage';
+          break;
+        case 4:
+          routeName = '/login'; 
+          break; 
+      }
+      return routeName;
+  }
+
+  // Drawer ListTile Function
+  ListTile buildDrawerListTile(int index) {
+    List<String> titles = ['Home', 'Search', 'Favorite Hotel', 'My Page', 'Log Out'];
+    List<IconData> icons = [Icons.home, Icons.search, Icons.location_city, Icons.person, Icons.logout];
+    
+    return ListTile(
+      leading: Icon(icons[index], color: Colors.blue),
+        title: Text(titles[index]),
+        selected: _selectedIndex == index,
+        onTap: () {
+          // Update the state of the app
+          String routeName = _onItemTapped(index);
+          // Then close the drawer
+          Navigator.pushNamed(context,routeName);
+        },
+      );
+  }
+  
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       // TODO: Add app bar (102)
       appBar: AppBar(
           title: const Text('SHRINE'),
-          leading: IconButton(
-            icon: const Icon(
-              Icons.menu,
-              semanticLabel: 'menu',
-            ),
-            onPressed: () {
-              print('Menu Button');
-            },
-          ),
-
+          backgroundColor: Colors.blue,
+          
           actions: <Widget>[
             IconButton(
               icon: const Icon(
@@ -114,7 +159,32 @@ class HomePage extends StatelessWidget {
         // TODO: Build a grid of cards (102)
         children: _buildGridCards(context)
       ),
+      drawer: Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text('Pages',
+                    style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            ), 
+            ...List.generate(5, buildDrawerListTile),
+          ],
+        ),
+      ),
       resizeToAvoidBottomInset: false,
     );
   }
+
 }
