@@ -51,7 +51,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
               obscureText: true,
             ),
-            
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

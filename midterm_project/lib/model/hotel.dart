@@ -1,6 +1,7 @@
 class Hotel {
   const Hotel({
     required this.id,
+    required this.star,
     required this.name,
     required this.location,
     required this.number,
@@ -8,6 +9,7 @@ class Hotel {
   });
 
   final int id;
+  final int star;
   final String name;
   final String location;
   final String number;

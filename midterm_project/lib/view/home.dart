@@ -22,141 +22,196 @@ class _HomePageState extends State<HomePage> {
       return const <Card>[];
     }
 
-    final ThemeData theme = Theme.of(context);
-
     // products 리스트의 각 요소에 대해 map() 함수를 실행
     return hotels.map((hotel) {
       // 각 product에 대해 아래의 코드 블록을 실행
-      return _isGridView ? 
-      // GridView card layout
-      Card(
-        // clipBehavior 속성은 카드의 경계를 넘어가는 자식 위젯들이 어떻게 잘릴지 결정
-        //  Clip.antiAlias는 경계를 부드럽게 만들어 줌
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          // crossAxisAlignment 속성은 수직(열) 방향으로 어떻게 정렬할지 결정 (start -> 시작 위치에서 정렬)
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // AspectRatio: 특정 비율(aspect ratio)을 유지하면서 그 안에 다른 위젯(여기서는 이미지)를 배치할 때 사용
-            AspectRatio(
-              aspectRatio: 18 / 11,
-              child: Image.asset(
-                hotel.assetName,
-                package: hotel.assetPackage,
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding:
-                    const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                child:
-                  Column(crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    children:<Widget>[
-                      Text(hotel.name,style:
-                        theme.textTheme.titleLarge,maxLines:
-                          1,),
-                      const SizedBox(height:
-                        8.0),
-                      Text(hotel.location,style:
-                        theme.textTheme.titleSmall,),
-                    ],
+      return _isGridView
+          ?
+          // GridView card layout
+          Card(
+              // clipBehavior 속성은 카드의 경계를 넘어가는 자식 위젯들이 어떻게 잘릴지 결정
+              //  Clip.antiAlias는 경계를 부드럽게 만들어 줌
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                // crossAxisAlignment 속성은 수직(열) 방향으로 어떻게 정렬할지 결정 (start -> 시작 위치에서 정렬)
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  // AspectRatio: 특정 비율(aspect ratio)을 유지하면서 그 안에 다른 위젯(여기서는 이미지)를 배치할 때 사용
+                  AspectRatio(
+                    aspectRatio: 18 / 11,
+                    child: Image.asset(
+                      hotel.assetName,
+                      package: hotel.assetPackage,
+                    ),
                   ),
-                ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.location_on,
+                                size: 17,
+                                color: Colors.blue,
+                              ),
+                              const SizedBox(width: 5),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children:<Widget>[
+                                        // Hotel star rating with outlined stars
+                                          Row(children:
+                                            List<Widget>.generate(hotel.star, (index) => const Icon(Icons.star, color: Colors.yellow, size: 15.0)),
+                                            mainAxisAlignment : MainAxisAlignment.start,
+                                          ),
+                                          const SizedBox(height: 2.0),
+
+
+                                          Text(hotel.name,
+                                              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold), 
+                                              maxLines : 1,
+                                          ),
+                                          const SizedBox(height: 2.0),                                      
+                                          Text(hotel.location,
+                                            style : const TextStyle(fontSize: 10),
+                                          ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              )
+
+                            ],
+                          ),
+                          TextButton(
+                            onPressed : () {
+                              Navigator.pushNamed(
+                                context,
+                                '/detail',
+                                arguments: hotel,
+                              );
+                            }, 
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: const Text('more'),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        )
-      : 
-      // ListView card layout
-      ListTile(
-        leading: Image.asset(hotel.assetName),
-        title: Text(hotel.name),
-        subtitle: Text(hotel.location),
-      );
-      
-  }).toList();
-}
-  
+            )
+          :
+          // ListView card layout
+          ListTile(
+              leading: Image.asset(hotel.assetName),
+              title: Text(hotel.name),
+              subtitle: Text(hotel.location),
+            );
+    }).toList();
+  }
 
   String _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      });
+    });
 
-      String routeName = '';
-      switch(index) {
-        case 0:
-          routeName = '/home';
-          break;
-        case 1:
-          routeName = '/search';
-          break;
-        case 2:
-          routeName = '/fvhotel';
-          break;
-        case 3:
-          routeName = '/mypage';
-          break;
-        case 4:
-          routeName = '/login';
-          break; 
-      }
-      return routeName;
+    String routeName = '';
+    switch (index) {
+      case 0:
+        routeName = '/home';
+        break;
+      case 1:
+        routeName = '/search';
+        break;
+      case 2:
+        routeName = '/fvhotel';
+        break;
+      case 3:
+        routeName = '/mypage';
+        break;
+      case 4:
+        routeName = '/login';
+        break;
+    }
+    return routeName;
   }
 
   // Drawer ListTile Function
   ListTile buildDrawerListTile(int index) {
-    List<String> titles = ['Home', 'Search', 'Favorite Hotel', 'My Page', 'Log Out'];
-    List<IconData> icons = [Icons.home, Icons.search, Icons.location_city, Icons.person, Icons.logout];
-    
+    List<String> titles = [
+      'Home',
+      'Search',
+      'Favorite Hotel',
+      'My Page',
+      'Log Out'
+    ];
+    List<IconData> icons = [
+      Icons.home,
+      Icons.search,
+      Icons.location_city,
+      Icons.person,
+      Icons.logout
+    ];
+
     return ListTile(
       leading: Icon(icons[index], color: Colors.blue),
-        title: Text(titles[index]),
-        selected: _selectedIndex == index,
-        onTap: () {
-          // Update the state of the app
-          String routeName = _onItemTapped(index);
-          // Then close the drawer
-          Navigator.pop(context);
-          Navigator.pushNamed(context,routeName);
-        },
-      );
+      title: Text(titles[index]),
+      selected: _selectedIndex == index,
+      onTap: () {
+        // Update the state of the app
+        String routeName = _onItemTapped(index);
+        // Then close the drawer
+        Navigator.pop(context);
+        Navigator.pushNamed(context, routeName);
+      },
+    );
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       // TODO: Add app bar (102)
       appBar: AppBar(
-          title: const Text('Main',),
-          backgroundColor: Colors.blue,
-          iconTheme: const IconThemeData(color: Colors.white), // Add this line
-          
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.search,
-                semanticLabel: 'search',
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context,'/search');
-              },
-            ),
+        title: const Text(
+          'Main',
+        ),
+        backgroundColor: Colors.blue,
+        iconTheme: const IconThemeData(color: Colors.white), // Add this line
 
-            IconButton(
-              icon: const Icon(
-                Icons.language,
-                semanticLabel: 'language',
-                color: Colors.white,
-                ),
-                onPressed: () {
-                  print('language button');
-                },
-            )
-          ],
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.search,
+              semanticLabel: 'search',
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/search');
+            },
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.language,
+              semanticLabel: 'language',
+              color: Colors.white,
+            ),
+            onPressed: () {
+              print('language button');
+            },
+          )
+        ],
       ),
 
       // TODO: Add a grid view (102)
@@ -184,15 +239,14 @@ class _HomePageState extends State<HomePage> {
                         crossAxisCount:
                             orientation == Orientation.portrait ? 2 : 3,
                         padding: const EdgeInsets.all(16.0),
-                        childAspectRatio: 8 / 9,
+                        childAspectRatio: .8,
                         crossAxisSpacing: .5,
-                        mainAxisSpacing:.5 ,
-                        children:_buildGridCards(context),
+                        mainAxisSpacing: .5,
+                        children: _buildGridCards(context),
                       )
-                    : ListView(padding:
-                        const EdgeInsets.all(16.0),
-                        children:_buildGridCards(context)
-                      );
+                    : ListView(
+                        padding: const EdgeInsets.all(16.0),
+                        children: _buildGridCards(context));
               },
             ),
           ),
@@ -205,20 +259,20 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text('Pages',
-                    style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Colors.white,
-                  ),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
                 ),
-              )
-            ), 
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'Pages',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.white,
+                    ),
+                  ),
+                )),
             ...List.generate(5, buildDrawerListTile),
           ],
         ),
@@ -226,5 +280,4 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: false,
     );
   }
-
 }

@@ -20,6 +20,7 @@ import 'view/signup.dart';
 import 'view/search.dart';
 import 'view/fvhotel.dart';
 import 'view/mypage.dart';
+import 'view/detail.dart';
 
 // TODO: Convert ShrineApp to stateful widget (104)
 class ShrineApp extends StatelessWidget {
@@ -37,6 +38,7 @@ class ShrineApp extends StatelessWidget {
         '/search': (BuildContext context) => const SearchPage(),
         '/fvhotel': (BuildContext context) => const FvHotelPage(),
         '/mypage': (BuildContext context) => const MyPage(),
+        '/detail': (BuildContext context) => const DetailPage(),
       },
       // TODO: Customize the theme (103)
       theme: ThemeData.light(useMaterial3: false),
