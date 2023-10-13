@@ -8,6 +8,7 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.17.0
+  animated_text_kit: ^4.2.2
 
   cupertino_icons: ^1.0.5
   shrine_images: ^2.0.2
@@ -22,3 +23,9 @@ flutter:
   uses-material-design: true
   assets:
     - assets/diamond.png
+    - assets/polonia.jpg
+    - assets/hilton.jpg
+    - assets/berlin.png
+    - assets/marina.png
+    - assets/carlton.jpg
+    - assets/regis.jpg

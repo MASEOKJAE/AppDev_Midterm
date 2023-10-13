@@ -40,8 +40,7 @@ class _HomePageState extends State<HomePage> {
                   AspectRatio(
                     aspectRatio: 18 / 11,
                     child: Image.asset(
-                      hotel.assetName,
-                      package: hotel.assetPackage,
+                      hotel.picture,
                     ),
                   ),
                   Expanded(
@@ -115,7 +114,7 @@ class _HomePageState extends State<HomePage> {
           :
           // ListView card layout
           ListTile(
-              leading: Image.asset(hotel.assetName),
+              leading: Image.asset(hotel.picture),
               title: Text(hotel.name),
               subtitle: Text(hotel.location),
             );
