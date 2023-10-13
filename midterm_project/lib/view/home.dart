@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
                     aspectRatio: 18 / 11,
                     child: Image.asset(
                       hotel.picture,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   Expanded(
@@ -114,7 +115,9 @@ class _HomePageState extends State<HomePage> {
           :
           // ListView card layout
           ListTile(
-              leading: Image.asset(hotel.picture),
+              leading: Image.asset(
+                hotel.picture,
+                fit: BoxFit.cover),
               title: Text(hotel.name),
               subtitle: Text(hotel.location),
             );
@@ -183,11 +186,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       // TODO: Add app bar (102)
       appBar: AppBar(
-        title: const Text(
-          'Main',
-        ),
+        title: const Text('Main'),
+        centerTitle: true,
         backgroundColor: Colors.blue,
-        iconTheme: const IconThemeData(color: Colors.white), // Add this line
+        iconTheme: const IconThemeData(color: Colors.white),
 
         actions: <Widget>[
           IconButton(
