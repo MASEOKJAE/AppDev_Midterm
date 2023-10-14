@@ -134,47 +134,54 @@ class _HomePageState extends State<HomePage> {
         return Card(
           clipBehavior: Clip.antiAlias,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(3.0, 8.0, 3.0, 8.0),
+            padding: const EdgeInsets.fromLTRB(2.0, 15.0, 2.0, 15.0),
             child: Stack(
               children: [
                 ListTile(
                   leading: AspectRatio(
-                    aspectRatio: 3 / 2,
+                    aspectRatio: 1,
                     child: Image.asset(
                       hotel.picture,
                       fit: BoxFit.cover,
                     ),
                   ),
                   // title: Text(hotel.name),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        children: List<Widget>.generate(
-                          hotel.star,
-                          (index) => const Icon(Icons.star,
-                              color: Colors.yellow, size: 15.0),
+                  subtitle: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: List<Widget>.generate(
+                                hotel.star,
+                                (index) => const Icon(Icons.star,
+                                    color: Colors.yellow, size: 15.0),
+                              ),
+                              mainAxisAlignment: MainAxisAlignment.start,
+                            ),
+                            const SizedBox(height: 2.0),
+                            Text(
+                              hotel.name,
+                              style: const TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold),
+                              maxLines: 1,
+                            ),
+                            const SizedBox(height: 2.0),
+                            Text(
+                              hotel.location,
+                              style: const TextStyle(fontSize: 10),
+                            ),
+                          ],
                         ),
-                        mainAxisAlignment: MainAxisAlignment.start,
                       ),
-                      const SizedBox(height: 2.0),
-                      Text(
-                        hotel.name,
-                        style: const TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.bold),
-                        maxLines: 1,
-                      ),
-                      const SizedBox(height: 2.0),
-                      Text(
-                        hotel.location,
-                        style: const TextStyle(fontSize: 10),
-                      ),
+                      const SizedBox(width: 80),
                     ],
                   ),
                 ),
                 Positioned(
                   // Positioned 위젯은 Stack 내에서 절대 위치를 지정할 수 있습니다.
-                  right: 2, // 오른쪽으로부터의 거리
+                  right: 15, // 오른쪽으로부터의 거리
                   bottom: 2, // 아래로부터의 거리
                   child: TextButton(
                     onPressed: () {
@@ -292,18 +299,25 @@ class _HomePageState extends State<HomePage> {
       // GridView는 count() 생성자를 호출
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                icon: Icon(_isGridView ? Icons.list : Icons.grid_view),
-                onPressed: () {
-                  setState(() {
-                    _isGridView = !_isGridView;
-                  });
-                },
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ToggleButtons(
+                  children: const [
+                    Icon(Icons.list),
+                    Icon(Icons.grid_view),
+                  ], 
+                  onPressed: (index) {
+                    setState(() {
+                      _isGridView = index == 1;
+                    });
+                  },
+                  isSelected: [!_isGridView, _isGridView],
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: OrientationBuilder(
