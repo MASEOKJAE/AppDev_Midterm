@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../model/hotel.dart';
 import '../model/hotels_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,6 +15,15 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   bool _isGridView = true; // true for GridView, false for ListView
 
+  Future<void> _launchURL() async {
+    final url = Uri(scheme: 'https', host: 'www.handong.edu');
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
   // TODO: Make a collection of cards (102)
   List<Widget> _buildGridCards(BuildContext context) {
     List<Hotel> hotels = HotelsRepository.loadHotels();
@@ -272,7 +282,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.white,
             ),
             onPressed: () {
-              print('language button');
+              _launchURL();
             },
           )
         ],

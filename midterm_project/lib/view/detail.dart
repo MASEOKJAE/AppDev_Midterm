@@ -65,7 +65,12 @@ class _DetailPageState extends State<DetailPage> {
                   },
                   child: Hero(
                     tag: 'hero${hotel.id}', // unique tag for this Hero
-                    child: Image.asset(hotel.picture),
+                    child: Image.asset(
+                      hotel.picture,
+                      height: 300,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Positioned(
@@ -107,7 +112,7 @@ class _DetailPageState extends State<DetailPage> {
                   Row(children: [
                     const Icon(Icons.location_on, color: Colors.blue),
                     const SizedBox(width: 5.0),
-                    Text(hotel.location)
+                    Expanded(child: Text(hotel.location, overflow: TextOverflow.ellipsis)),
                   ]),
                   const SizedBox(height: 10.0),
 
