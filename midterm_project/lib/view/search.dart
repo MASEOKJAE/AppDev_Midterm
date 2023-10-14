@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'sub/expansion.dart';
+import 'widgets/expansion.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);

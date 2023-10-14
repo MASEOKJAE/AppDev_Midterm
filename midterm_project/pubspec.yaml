@@ -9,6 +9,7 @@ dependencies:
     sdk: flutter
   intl: ^0.17.0
   animated_text_kit: ^4.2.2
+  provider: ^6.0.5
 
   cupertino_icons: ^1.0.5
   shrine_images: ^2.0.2

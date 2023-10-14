@@ -70,8 +70,10 @@ class _HomePageState extends State<HomePage> {
                                       children: List<Widget>.generate(
                                           hotel.star,
                                           (index) => const Icon(Icons.star,
-                                              color: Colors.yellow, size: 15.0)),
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                              color: Colors.yellow,
+                                              size: 15.0)),
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                     ),
                                     const SizedBox(height: 2.0),
 
@@ -161,24 +163,23 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Positioned(
-                    // Positioned 위젯은 Stack 내에서 절대 위치를 지정할 수 있습니다.
-                    right: 2, // 오른쪽으로부터의 거리
-                    bottom: 2, // 아래로부터의 거리
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/detail', arguments: hotel);
-                      },
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                            const EdgeInsets.symmetric(
-                                horizontal: (5), vertical: (2))),
-                        minimumSize: MaterialStateProperty.all(Size.zero),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: const Text(
-                        'more',
-                        style: TextStyle(fontSize: 10)),
-                    ))
+                  // Positioned 위젯은 Stack 내에서 절대 위치를 지정할 수 있습니다.
+                  right: 2, // 오른쪽으로부터의 거리
+                  bottom: 2, // 아래로부터의 거리
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/detail', arguments: hotel);
+                    },
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(
+                              horizontal: (5), vertical: (2))),
+                      minimumSize: MaterialStateProperty.all(Size.zero),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: const Text('more', style: TextStyle(fontSize: 10)),
+                  ),
+                )
               ],
             ),
           ),
