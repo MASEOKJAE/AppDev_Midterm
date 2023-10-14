@@ -13,6 +13,8 @@ dependencies:
 
   cupertino_icons: ^1.0.5
   shrine_images: ^2.0.2
+  flutter_slidable: ^3.0.0
+  lottie: ^2.6.0
 
 dev_dependencies:
   flutter_test:
